@@ -1,0 +1,92 @@
+/*
+ * Avatar — styles only. Size is selected with [data-size] on the root.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply relative flex size-8 shrink-0 rounded-full select-none;
+
+    /* hairline ring drawn over the image */
+    &::after {
+      content: "";
+      @apply absolute inset-0 rounded-full border border-border mix-blend-darken;
+    }
+    :global(.dark) &::after {
+      @apply mix-blend-lighten;
+    }
+
+    &[data-size="sm"] {
+      @apply size-6;
+    }
+    &[data-size="lg"] {
+      @apply size-10;
+    }
+  }
+
+  .image {
+    @apply aspect-square size-full rounded-full object-cover;
+  }
+
+  .fallback {
+    @apply flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground;
+
+    .root[data-size="sm"] & {
+      @apply text-xs;
+    }
+  }
+
+  .badge {
+    @apply absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background select-none;
+
+    .root[data-size="sm"] & {
+      @apply size-2;
+      & > svg {
+        @apply hidden;
+      }
+    }
+    .root[data-size="default"] & {
+      @apply size-2.5;
+      & > svg {
+        @apply size-2;
+      }
+    }
+    .root[data-size="lg"] & {
+      @apply size-3;
+      & > svg {
+        @apply size-2;
+      }
+    }
+  }
+
+  .group {
+    @apply flex -space-x-2;
+
+    & > [data-slot="avatar"] {
+      @apply ring-2 ring-background;
+    }
+  }
+
+  .groupCount {
+    @apply relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background;
+
+    & > svg {
+      @apply size-4;
+    }
+
+    .group:has([data-size="sm"]) & {
+      @apply size-6;
+      & > svg {
+        @apply size-3;
+      }
+    }
+    .group:has([data-size="lg"]) & {
+      @apply size-10;
+      & > svg {
+        @apply size-5;
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+/*
+ * Alert — styles only. Variant is selected with [data-variant].
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply relative grid w-full gap-0.5 rounded-2xl border px-4 py-3 text-left text-sm;
+
+    &:has(> .action) {
+      @apply pr-18;
+    }
+    &:has(> svg) {
+      @apply grid-cols-[auto_1fr] gap-x-2.5;
+    }
+    & > svg {
+      @apply row-span-2 translate-y-0.5 text-current;
+    }
+    & > svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+
+  .root[data-variant="default"] {
+    @apply bg-card text-card-foreground;
+  }
+
+  .root[data-variant="destructive"] {
+    @apply bg-card text-destructive;
+
+    & > .description {
+      @apply text-destructive/90;
+    }
+  }
+
+  .title {
+    @apply font-medium;
+
+    .root:has(> svg) & {
+      @apply col-start-2;
+    }
+  }
+
+  .description {
+    @apply text-sm text-balance text-muted-foreground md:text-pretty;
+
+    & p:not(:last-child) {
+      @apply mb-4;
+    }
+  }
+
+  .title a,
+  .description a {
+    @apply underline underline-offset-3 hover:text-foreground;
+  }
+
+  .action {
+    @apply absolute top-2.5 right-3;
+  }
+}

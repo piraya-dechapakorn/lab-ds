@@ -1,0 +1,21 @@
+/*
+ * Label — styles only.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply flex items-center gap-2 text-sm leading-none font-medium select-none;
+
+    /* disabled via an ancestor `.group[data-disabled="true"]` */
+    :global(.group[data-disabled="true"]) & {
+      @apply pointer-events-none opacity-50;
+    }
+    /* disabled via a preceding `.peer` control */
+    :global(.peer:disabled) ~ & {
+      @apply cursor-not-allowed opacity-50;
+    }
+  }
+}

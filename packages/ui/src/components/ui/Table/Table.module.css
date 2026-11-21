@@ -1,0 +1,89 @@
+/*
+ * Table — styles only. Density is selected with [data-density] on the
+ * <table>; cell alignment with [data-align] on th/td.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .container {
+    @apply relative w-full overflow-x-auto;
+  }
+
+  .root {
+    @apply w-full caption-bottom border-collapse text-sm;
+  }
+
+  .header {
+    & tr {
+      @apply border-b border-border;
+    }
+  }
+
+  .root[data-sticky-header] .header .head {
+    @apply sticky top-0 z-10 bg-background;
+  }
+
+  .body {
+    & tr:last-child {
+      @apply border-0;
+    }
+  }
+
+  .footer {
+    @apply border-t border-border bg-muted/50 font-medium;
+
+    & > tr:last-child {
+      @apply border-b-0;
+    }
+  }
+
+  .row {
+    @apply border-b border-border transition-colors;
+    @apply hover:bg-muted/50 data-[state=selected]:bg-muted;
+  }
+
+  .head {
+    @apply h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground;
+
+    &:has([role="checkbox"]) {
+      @apply pr-0;
+    }
+  }
+
+  .cell {
+    @apply p-2 align-middle;
+
+    &:has([role="checkbox"]) {
+      @apply pr-0;
+    }
+  }
+
+  .head[data-align="end"],
+  .cell[data-align="end"] {
+    @apply text-right tabular-nums;
+  }
+
+  .head[data-align="center"],
+  .cell[data-align="center"] {
+    @apply text-center;
+  }
+
+  /* ---- density ---------------------------------------------------------- */
+
+  .root[data-density="compact"] {
+    @apply text-xs;
+
+    & .head {
+      @apply h-8 px-2 text-xs;
+    }
+    & .cell {
+      @apply px-2 py-1.5;
+    }
+  }
+
+  .caption {
+    @apply mt-4 text-sm text-muted-foreground;
+  }
+}

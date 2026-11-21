@@ -1,0 +1,78 @@
+/*
+ * ProductCard — styles only. A sale price is selected with [data-sale].
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.composite {
+  /* Inset layout: the image sits in its own rounded frame inside the card. */
+  .root {
+    @apply relative flex w-full flex-col overflow-hidden rounded-3xl border bg-card p-1.5 text-card-foreground shadow-xs;
+    @apply transition-[box-shadow,translate,border-color] duration-300 ease-out;
+
+    &:hover {
+      @apply -translate-y-0.5 border-ring/40 shadow-lg;
+    }
+    :global(.dark) &:hover {
+      @apply border-ring shadow-black/40;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      &:hover {
+        @apply translate-y-0;
+      }
+    }
+  }
+
+  .media {
+    @apply relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-linear-to-b from-muted to-muted/40;
+
+    & > img {
+      @apply size-full object-cover transition-transform duration-500 ease-out;
+    }
+    .root:hover & > img {
+      @apply scale-105;
+    }
+    & > [data-placeholder] {
+      @apply size-8 text-muted-foreground/60;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .root:hover & > img {
+        @apply scale-100;
+      }
+    }
+  }
+
+  .content {
+    @apply grid gap-1 px-2.5 pt-3 pb-2.5;
+  }
+
+  .brand {
+    @apply text-[0.6875rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase;
+  }
+
+  .title {
+    @apply line-clamp-2 font-heading text-[0.9375rem] leading-snug font-semibold tracking-tight;
+  }
+
+  .price {
+    @apply mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1;
+  }
+
+  .amount {
+    @apply font-heading text-lg font-bold tracking-tight tabular-nums;
+
+    .price[data-sale] & {
+      @apply text-destructive;
+    }
+  }
+
+  .compareAt {
+    @apply text-xs text-muted-foreground tabular-nums decoration-muted-foreground/60;
+  }
+
+  /* Discount pill floats over the image's top-left corner. */
+  .discount {
+    @apply absolute top-4 left-4 h-6 px-2.5 text-xs font-bold shadow-sm;
+  }
+}

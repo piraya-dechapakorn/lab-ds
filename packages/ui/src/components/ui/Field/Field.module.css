@@ -1,0 +1,181 @@
+/*
+ * Field — styles only. Orientation is selected with [data-orientation].
+ * Lives in the `composite` layer because FieldLabel / FieldSeparator restyle
+ * the Label and Separator primitives.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.composite {
+  /* ---- FieldSet / FieldLegend ------------------------------------------ */
+
+  .set {
+    @apply flex flex-col gap-6;
+
+    &:has(> [data-slot="checkbox-group"]),
+    &:has(> [data-slot="radio-group"]) {
+      @apply gap-3;
+    }
+  }
+
+  .legend {
+    @apply mb-3 font-medium;
+
+    &[data-variant="legend"] {
+      @apply text-base;
+    }
+    &[data-variant="label"] {
+      @apply text-sm;
+    }
+  }
+
+  /* ---- FieldGroup ------------------------------------------------------- */
+
+  .group {
+    @apply @container/field-group flex w-full flex-col gap-7;
+
+    &[data-slot="checkbox-group"] {
+      @apply gap-3;
+    }
+    & > [data-slot="field-group"] {
+      @apply gap-4;
+    }
+  }
+
+  /* ---- Field ------------------------------------------------------------ */
+
+  .field {
+    @apply flex w-full gap-3;
+
+    &[data-invalid="true"] {
+      @apply text-destructive;
+    }
+  }
+
+  .field[data-orientation="vertical"] {
+    @apply flex-col;
+
+    & > * {
+      @apply w-full;
+    }
+  }
+
+  .field[data-orientation="horizontal"] {
+    @apply flex-row items-center;
+
+    & > [data-slot="field-label"] {
+      @apply flex-auto;
+    }
+    &:has(> [data-slot="field-content"]) {
+      @apply items-start;
+
+      & > :is([role="checkbox"], [role="radio"]) {
+        @apply mt-px;
+      }
+    }
+  }
+
+  /* vertical on narrow containers, horizontal from the field-group's @md */
+  .field[data-orientation="responsive"] {
+    @apply flex-col @md/field-group:flex-row @md/field-group:items-center;
+
+    & > * {
+      @apply w-full @md/field-group:w-auto;
+    }
+    & > [data-slot="field-label"] {
+      @apply @md/field-group:flex-auto;
+    }
+    &:has(> [data-slot="field-content"]) {
+      @apply @md/field-group:items-start;
+
+      & > :is([role="checkbox"], [role="radio"]) {
+        @apply @md/field-group:mt-px;
+      }
+    }
+  }
+
+  .field[data-orientation="vertical"] > :global(.sr-only),
+  .field[data-orientation="responsive"] > :global(.sr-only) {
+    @apply w-auto;
+  }
+
+  /* ---- FieldContent / FieldLabel / FieldTitle --------------------------- */
+
+  .content {
+    @apply flex flex-1 flex-col gap-1 leading-snug;
+  }
+
+  .label {
+    @apply flex w-fit gap-2 leading-snug has-data-checked:bg-input/30;
+
+    /* a label that wraps a whole Field renders as a selectable card */
+    &:has(> [data-slot="field"]) {
+      @apply w-full flex-col rounded-2xl border;
+
+      &:not(:has(:disabled, [data-disabled])) {
+        @apply hover:bg-input/40;
+      }
+      &:has(:focus-visible) {
+        @apply border-ring ring-3 ring-ring/50;
+      }
+    }
+    & > [data-slot="field"] {
+      @apply p-4;
+    }
+  }
+
+  .title {
+    @apply flex w-fit items-center gap-2 text-sm font-medium;
+  }
+
+  .field[data-disabled="true"] :is(.label, .title) {
+    @apply opacity-50;
+  }
+
+  /* ---- FieldDescription ------------------------------------------------- */
+
+  .description {
+    @apply text-left text-sm leading-normal font-normal text-muted-foreground;
+    @apply last:mt-0 nth-last-2:-mt-1;
+
+    .field[data-orientation="horizontal"] & {
+      @apply text-balance;
+    }
+    .legend[data-variant="legend"] + & {
+      @apply -mt-1.5;
+    }
+
+    & > a {
+      @apply underline underline-offset-4 hover:text-link;
+    }
+  }
+
+  /* ---- FieldSeparator --------------------------------------------------- */
+
+  .separator {
+    @apply relative -my-2 h-5 text-sm;
+
+    .group[data-variant="outline"] & {
+      @apply -mb-2;
+    }
+  }
+
+  .separatorLine {
+    @apply absolute inset-0 top-1/2;
+  }
+
+  .separatorContent {
+    @apply relative mx-auto block w-fit bg-background px-2 text-muted-foreground;
+  }
+
+  /* ---- FieldError ------------------------------------------------------- */
+
+  .error {
+    @apply text-sm font-normal text-destructive;
+  }
+
+  .errorList {
+    @apply ml-4 flex list-disc flex-col gap-1;
+  }
+}

@@ -1,0 +1,70 @@
+/*
+ * Badge — styles only. Variant is selected with [data-variant].
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-3xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all;
+    @apply focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50;
+    @apply has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5;
+    @apply aria-invalid:border-destructive aria-invalid:ring-destructive/20;
+
+    :global(.dark) &[aria-invalid="true"] {
+      @apply ring-destructive/40;
+    }
+
+    & > svg {
+      @apply pointer-events-none size-3!;
+    }
+  }
+
+  .root[data-variant="default"] {
+    @apply bg-primary text-primary-foreground;
+
+    &:is(a):hover {
+      @apply bg-primary/80;
+    }
+  }
+
+  .root[data-variant="secondary"] {
+    @apply bg-secondary text-secondary-foreground;
+
+    &:is(a):hover {
+      @apply bg-secondary/80;
+    }
+  }
+
+  .root[data-variant="destructive"] {
+    @apply bg-destructive/10 text-destructive focus-visible:ring-destructive/20;
+
+    :global(.dark) & {
+      @apply bg-destructive/20 focus-visible:ring-destructive/40;
+    }
+    &:is(a):hover {
+      @apply bg-destructive/20;
+    }
+  }
+
+  .root[data-variant="outline"] {
+    @apply border-border text-foreground;
+
+    &:is(a):hover {
+      @apply bg-muted text-muted-foreground;
+    }
+  }
+
+  .root[data-variant="ghost"] {
+    @apply hover:bg-muted hover:text-muted-foreground;
+
+    :global(.dark) & {
+      @apply hover:bg-muted/50;
+    }
+  }
+
+  .root[data-variant="link"] {
+    @apply text-link underline-offset-4 hover:underline;
+  }
+}

@@ -1,0 +1,19 @@
+/*
+ * Separator — styles only. Orientation comes from Base UI's [data-orientation].
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply shrink-0 bg-border;
+
+    &[data-orientation="horizontal"] {
+      @apply h-px w-full;
+    }
+    &[data-orientation="vertical"] {
+      @apply w-px self-stretch;
+    }
+  }
+}

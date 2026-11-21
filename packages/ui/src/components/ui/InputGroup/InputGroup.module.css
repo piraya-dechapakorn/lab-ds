@@ -1,0 +1,158 @@
+/*
+ * InputGroup — styles only. Addon placement is selected with [data-align].
+ * Lives in the `composite` layer because it restyles the Input, Textarea and
+ * Button primitives it wraps.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.composite {
+  /* ---- InputGroup (the visual "field" box) ------------------------------ */
+
+  .root {
+    @apply relative flex h-9 w-full min-w-0 items-center rounded-4xl border border-transparent bg-input/50 transition-[color,box-shadow,background-color] outline-none;
+
+    /* focus + invalid rings are driven by the inner control */
+    &:has([data-slot="input-group-control"]:focus-visible) {
+      @apply border-ring ring-3 ring-ring/30;
+    }
+    &:has([data-slot][aria-invalid="true"]) {
+      @apply border-destructive ring-3 ring-destructive/20;
+    }
+    :global(.dark) &:has([data-slot][aria-invalid="true"]) {
+      @apply ring-destructive/40;
+    }
+    :global([data-slot="combobox-content"]) &:focus-within {
+      @apply border-inherit ring-0;
+    }
+
+    /* block addons stack the group vertically */
+    &:has(> [data-align="block-start"]),
+    &:has(> [data-align="block-end"]) {
+      @apply h-auto flex-col rounded-3xl;
+    }
+    &:has(> textarea) {
+      @apply h-auto;
+    }
+    &:has(textarea) {
+      @apply rounded-2xl;
+    }
+
+    /* tighten the input's padding on the side that has an addon */
+    &:has(> [data-align="inline-start"]) > input {
+      @apply pl-1.5;
+    }
+    &:has(> [data-align="inline-end"]) > input {
+      @apply pr-1.5;
+    }
+    &:has(> [data-align="block-start"]) > input {
+      @apply pb-3;
+    }
+    &:has(> [data-align="block-end"]) > input {
+      @apply pt-3;
+    }
+  }
+
+  /* ---- InputGroupAddon -------------------------------------------------- */
+
+  .addon {
+    @apply flex h-auto cursor-text items-center justify-center gap-2 py-2 text-sm font-medium text-muted-foreground select-none;
+
+    .root[data-disabled="true"] & {
+      @apply opacity-50;
+    }
+    & [data-slot="kbd"] {
+      @apply rounded-3xl bg-muted-foreground/10 px-1.5;
+    }
+    & > svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+
+  .addon[data-align="inline-start"] {
+    @apply order-first pl-3;
+
+    &:has(> button, > kbd) {
+      @apply -ml-1;
+    }
+  }
+
+  .addon[data-align="inline-end"] {
+    @apply order-last pr-3;
+
+    &:has(> button, > kbd) {
+      @apply -mr-1;
+    }
+  }
+
+  .addon[data-align="block-start"] {
+    @apply order-first w-full justify-start px-3 pt-3;
+
+    .root:has(> input) & {
+      @apply pt-3.5;
+    }
+    &:global(.border-b) {
+      @apply pb-3.5;
+    }
+  }
+
+  .addon[data-align="block-end"] {
+    @apply order-last w-full justify-start px-3 pb-3;
+
+    .root:has(> input) & {
+      @apply pb-3.5;
+    }
+    &:global(.border-t) {
+      @apply pt-3.5;
+    }
+  }
+
+  /* ---- InputGroupButton (tweaks on top of Button) ----------------------- */
+
+  .button {
+    @apply flex items-center gap-2 rounded-4xl text-sm shadow-none;
+
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+
+    &[data-size="xs"] {
+      @apply h-6 gap-1 rounded-xl px-1.5;
+
+      & > svg:not([class*="size-"]) {
+        @apply size-3.5;
+      }
+    }
+    &[data-size="icon-xs"] {
+      @apply size-6 rounded-xl p-0;
+    }
+    &[data-size="icon-sm"] {
+      @apply size-8 p-0;
+    }
+  }
+
+  /* ---- InputGroupText --------------------------------------------------- */
+
+  .text {
+    @apply flex items-center gap-2 text-sm text-muted-foreground;
+
+    & svg {
+      @apply pointer-events-none;
+    }
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+
+  /* ---- InputGroupInput / InputGroupTextarea ----------------------------- */
+
+  /* strip the primitive's own box; the group draws it instead */
+  .control {
+    @apply flex-1 rounded-none border-0 bg-transparent shadow-none ring-0;
+  }
+
+  .textarea {
+    @apply resize-none py-2.5;
+  }
+}

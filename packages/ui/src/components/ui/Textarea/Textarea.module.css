@@ -1,0 +1,20 @@
+/*
+ * Textarea — styles only. Grows with its content (field-sizing: content).
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply flex field-sizing-content min-h-16 w-full resize-none rounded-2xl border border-transparent bg-input/50 px-3 py-3 text-base transition-[color,box-shadow,background-color] outline-none md:text-sm;
+    @apply placeholder:text-muted-foreground;
+    @apply focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20;
+
+    :global(.dark) &[aria-invalid="true"] {
+      @apply border-destructive/50 ring-destructive/40;
+    }
+  }
+}

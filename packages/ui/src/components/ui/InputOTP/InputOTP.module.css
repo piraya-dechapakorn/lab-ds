@@ -1,0 +1,59 @@
+/*
+ * InputOTP — styles only. Slot state comes from [data-active].
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .container {
+    @apply flex items-center has-disabled:opacity-50;
+  }
+
+  .input {
+    @apply disabled:cursor-not-allowed;
+  }
+
+  .group {
+    @apply flex items-center rounded-3xl;
+
+    &:has([aria-invalid="true"]) {
+      @apply border-destructive ring-3 ring-destructive/20;
+    }
+    :global(.dark) &:has([aria-invalid="true"]) {
+      @apply ring-destructive/40;
+    }
+  }
+
+  .slot {
+    @apply relative flex size-9 items-center justify-center border-y border-r border-input bg-input/50 text-sm transition-all outline-none;
+    @apply first:rounded-l-3xl first:border-l last:rounded-r-3xl;
+    @apply aria-invalid:border-destructive;
+
+    &[data-active="true"] {
+      @apply z-10 border-ring ring-3 ring-ring/30;
+    }
+    &[data-active="true"][aria-invalid="true"] {
+      @apply ring-destructive/20;
+    }
+    :global(.dark) &[data-active="true"][aria-invalid="true"] {
+      @apply ring-destructive/40;
+    }
+  }
+
+  .caret {
+    @apply pointer-events-none absolute inset-0 flex items-center justify-center;
+  }
+
+  .caretBar {
+    @apply h-4 w-px animate-caret-blink bg-foreground duration-1000;
+  }
+
+  .separator {
+    @apply flex items-center;
+
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+}

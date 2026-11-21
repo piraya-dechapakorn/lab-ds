@@ -1,0 +1,48 @@
+/*
+ * Dialog — styles only.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .overlay {
+    @apply fixed inset-0 isolate z-50 bg-black/30 duration-100 supports-backdrop-filter:backdrop-blur-sm;
+    @apply data-open:animate-in data-open:fade-in-0;
+    @apply data-closed:animate-out data-closed:fade-out-0;
+  }
+
+  .content {
+    @apply fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-6 rounded-4xl bg-popover p-6 text-sm text-popover-foreground shadow-xl ring-1 ring-foreground/5 duration-100 outline-none sm:max-w-md;
+    @apply data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95;
+    @apply data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95;
+
+    :global(.dark) & {
+      @apply ring-foreground/10;
+    }
+  }
+
+  .close {
+    @apply absolute top-4 right-4 bg-secondary;
+  }
+
+  .header {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .footer {
+    @apply flex flex-col-reverse gap-2 sm:flex-row sm:justify-end;
+  }
+
+  .title {
+    @apply font-heading text-base leading-none font-medium;
+  }
+
+  .description {
+    @apply text-sm text-muted-foreground;
+
+    & > a {
+      @apply underline underline-offset-3 hover:text-foreground;
+    }
+  }
+}
