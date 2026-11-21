@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "storybook",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "pnpm@10.20.0", "storybook"],
+      "port": 6006
+    }
+  ]
+}

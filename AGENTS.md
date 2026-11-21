@@ -38,6 +38,16 @@ There is no unit test runner yet. Ask before adding one. Storybook `play` functi
 - Use `Button.stories.tsx` as the pattern for new stories: a `Playground` story for controls, a grid of variants and sizes, a `States` matrix of the data and ARIA attributes the module CSS styles, and `play` tests for behaviour.
 - `storybook build` warns that `"use client"` directives are ignored when bundling. This is expected.
 
+## Component spec (write it before implementing)
+
+Before you add or change a component, write or update its spec at `src/components/ui/<Name>/<name>.md` (lowercase name, e.g. `Button/button.md`). Then implement against it. Use `Button/button.md` as the pattern. The spec has three readers:
+
+- **Dev**: usage examples, a props table with types and defaults, exported helpers, and which ones are server-safe.
+- **Design**: every variant and size, every state with the data or ARIA attribute the module CSS styles for it, and the tokens it uses.
+- **LLM**: Markdown tables that give exact prop and value names, plus the public `lds-*` class names. State each fact in a table or code block where it can be found.
+
+The spec is done when every prop, variant, size, styled state and public class name in the code appears in it. Update it in the same change as the code and the story's `argTypes`. It is not a build entry and does not ship in `dist`.
+
 ## Architecture rules
 
 **Components are source, not a dependency.** Add them with the shadcn CLI from `packages/ui`, which has its own `components.json`. The output lands in `src/components/ui/<Name>/` as `<Name>.tsx` + `<Name>.module.css` + `index.ts`, and is owned and edited here from then on. Class merging goes through `cn()` / `mergeClassName()` in `src/lib/utils.ts`. Use `mergeClassName` for Base UI parts, whose `className` can be a function of state.
