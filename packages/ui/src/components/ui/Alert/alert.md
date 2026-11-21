@@ -4,6 +4,40 @@
 
 An inline message box that calls attention to important information on the page.
 
+## Import and use
+
+**1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
+
+```bash
+pnpm add lab-ds
+```
+
+```css
+@import "tailwindcss";
+@import "lab-ds/styles.css";
+```
+
+**2. Import the parts you need** from `lab-ds`:
+
+```tsx
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "lab-ds"
+```
+
+**3. Build the alert** from this structure. Every part inside `Alert` is optional:
+
+```tsx
+<Alert>
+  <Info /> {/* optional icon, e.g. from lucide-react */}
+  <AlertTitle>Your plan renews on 1 December</AlertTitle>
+  <AlertDescription>
+    We will charge the card on file. You can change plans at any time.
+  </AlertDescription>
+  <AlertAction>{/* optional: one small button */}</AlertAction>
+</Alert>
+```
+
+Alert works in React Server Components.
+
 ## When to use
 
 - A message that relates to the page or section it sits in, and stays visible until the content changes. Examples: a form failed to save, or an account needs attention.

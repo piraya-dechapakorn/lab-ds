@@ -10,7 +10,20 @@ A clickable button built on the Base UI [`Button`](https://base-ui.com/react/com
 | `Button.module.css` | Styles, in `@layer components.primitive` |
 | `index.ts` | Re-exports `./Button` |
 
-## Usage
+## Import and use
+
+**1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
+
+```bash
+pnpm add lab-ds
+```
+
+```css
+@import "tailwindcss";
+@import "lab-ds/styles.css";
+```
+
+**2. Import and render it:**
 
 ```tsx
 import { Button } from "lab-ds"
