@@ -1,0 +1,9 @@
+/* Set up exactly as the lab-ds README tells consumers to. */
+@import "tailwindcss";
+@import "lab-ds/styles.css";
+
+/* lab-ds reads these from the app (README → Fonts). */
+:root {
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+}

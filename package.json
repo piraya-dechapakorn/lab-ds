@@ -6,7 +6,8 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "storybook": "pnpm --filter lab-ds build && pnpm --parallel --filter lab-ds --filter storybook dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

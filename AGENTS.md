@@ -4,12 +4,13 @@ Guidance for AI coding agents working in this repository.
 
 ## Project
 
-A public React + TypeScript design system published to npm. Components are shadcn/ui-style source built on Base UI primitives (`@base-ui/react`, not Radix) and styled with CSS Modules that use Tailwind CSS v4 `@apply`. A Next.js docs app and Storybook will document it; neither exists yet.
+A public React + TypeScript design system published to npm. Components are shadcn/ui-style source built on Base UI primitives (`@base-ui/react`, not Radix) and styled with CSS Modules that use Tailwind CSS v4 `@apply`. Storybook (`apps/storybook`) documents it. A Next.js docs app is planned but does not exist yet.
 
 ## Layout (pnpm monorepo)
 
 - `packages/ui`: the published npm package, named `lab-ds` (unscoped). pnpm `--filter` matches this name, not the folder name. Components, tokens and styles live here. Built with tsup.
-- `apps/*`: planned home for `apps/docs` (Next.js App Router, using the package through `workspace:*` like an external app would) and Storybook. Already covered by `pnpm-workspace.yaml`.
+- `apps/storybook`: Storybook 10 (`@storybook/react-vite`), package name `storybook`. It depends on `lab-ds` through `workspace:*`, so it uses the built `dist`, the way an external app would.
+- `apps/docs` (planned): Next.js App Router, also using `lab-ds` through `workspace:*`.
 - Root: pnpm workspace config, plus shared TypeScript (`tsconfig.base.json`), ESLint (`eslint.config.mjs`) and Prettier config.
 
 ## Commands
@@ -20,11 +21,22 @@ Run these from the repo root. pnpm is pinned in the root `package.json` (`packag
 pnpm install
 pnpm --filter lab-ds build        # tsup → packages/ui/dist (ESM + CJS + .d.ts + styles.css)
 pnpm --filter lab-ds dev          # tsup --watch
+pnpm storybook                    # builds lab-ds, then runs tsup --watch + Storybook on :6006
+pnpm --filter storybook build     # static Storybook → apps/storybook/storybook-static
 pnpm lint
 pnpm typecheck
 ```
 
-There is no test runner yet. Ask before adding one.
+There is no unit test runner yet. Ask before adding one. Storybook `play` functions (imported from `storybook/test`) are the only automated checks. They run when a story opens and show their result in the Interactions panel.
+
+## Storybook
+
+- Stories live in `apps/storybook/src/stories/<Name>.stories.tsx`. A compound component gets a folder with one file per part (see `ProductCard/`, titled `Components/ProductCard/<Part>`) and a shared `fixtures.ts`. Fixture images are inline SVG data URIs, so stories make no network requests. All stories import from `"lab-ds"`, never from `packages/ui/src`. Stories therefore show what ships, but `lab-ds` must be built first. `pnpm storybook` builds it and keeps `tsup --watch` running.
+- `src/styles.css` follows the consumer setup from the README (`@import "tailwindcss"; @import "lab-ds/styles.css";`) and sets `--font-sans` / `--font-heading`. Tailwind runs through `@tailwindcss/vite`, so layout utilities inside stories work.
+- Docgen cannot read the built package, so each story file declares its `argTypes` (options, descriptions, defaults) by hand. Keep them in sync with the component's props.
+- The toolbar's Theme global toggles `.dark` on `<html>` (decorator in `.storybook/preview.ts`).
+- Use `Button.stories.tsx` as the pattern for new stories: a `Playground` story for controls, a grid of variants and sizes, a `States` matrix of the data and ARIA attributes the module CSS styles, and `play` tests for behaviour.
+- `storybook build` warns that `"use client"` directives are ignored when bundling. This is expected.
 
 ## Architecture rules
 
