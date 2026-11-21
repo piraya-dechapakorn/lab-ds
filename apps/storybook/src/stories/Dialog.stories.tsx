@@ -79,46 +79,99 @@ function Page({ children }: { children: React.ReactNode }) {
 }
 
 /**
+ * Stories that start open render in their own frame on the Docs page, so the
+ * modal stays inside that frame instead of covering the whole page.
+ */
+const OPEN_IN_DOCS = {
+  docs: { story: { inline: false, iframeHeight: 520 } },
+} as const
+
+/**
  * A short form. `disablePointerDismissal` stops a stray click outside from
  * throwing away what the user typed.
  */
+function EditProfileDialog(props: React.ComponentProps<typeof Dialog>) {
+  return (
+    <Dialog {...props}>
+      <DialogTrigger render={<Button variant="outline" />}>
+        Edit profile
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Changes show on your public profile.
+          </DialogDescription>
+        </DialogHeader>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="dialog-name">Name</FieldLabel>
+            <Input id="dialog-name" defaultValue="Piraya" />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="dialog-username">Username</FieldLabel>
+            <Input id="dialog-username" defaultValue="@piraya" />
+          </Field>
+        </FieldGroup>
+        <DialogFooter>
+          <DialogClose render={<Button variant="outline" />}>
+            Cancel
+          </DialogClose>
+          <DialogClose render={<Button onClick={onSave} />}>
+            Save changes
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const renderEditProfile: Story["render"] = (args) => (
+  <Page>
+    <EditProfileDialog {...args} />
+  </Page>
+)
+
+/** Use the Controls panel to try each prop, then open the dialog. */
 export const Playground: Story = {
   args: { disablePointerDismissal: true },
-  render: (args) => (
-    <Page>
-      <Dialog {...args}>
-        <DialogTrigger render={<Button variant="outline" />}>
-          Edit profile
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Changes show on your public profile.
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="dialog-name">Name</FieldLabel>
-              <Input id="dialog-name" defaultValue="Piraya" />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="dialog-username">Username</FieldLabel>
-              <Input id="dialog-username" defaultValue="@piraya" />
-            </Field>
-          </FieldGroup>
-          <DialogFooter>
-            <DialogClose render={<Button variant="outline" />}>
-              Cancel
-            </DialogClose>
-            <DialogClose render={<Button onClick={onSave} />}>
-              Save changes
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </Page>
-  ),
+  render: renderEditProfile,
+}
+
+/** The dialog already open, to review its layout without clicking. */
+export const Open: Story = {
+  args: { defaultOpen: true, disablePointerDismissal: true },
+  parameters: OPEN_IN_DOCS,
+  render: renderEditProfile,
+  play: async ({ canvasElement }) => {
+    const body = within(canvasElement.ownerDocument.body)
+    const dialog = await body.findByRole("dialog", { name: "Edit profile" })
+    // Wait out the fade-in, which starts at opacity 0.
+    await waitFor(() => expect(dialog).toBeVisible())
+  },
+}
+
+/** The same open dialog with the dark theme, which sets `.dark` on `<html>`. */
+export const OpenDarkMode: Story = {
+  ...Open,
+  globals: { theme: "dark" },
+  play: async ({ canvasElement }) => {
+    const doc = canvasElement.ownerDocument
+    await expect(doc.documentElement).toHaveClass("dark")
+    const dialog = await within(doc.body).findByRole("dialog", {
+      name: "Edit profile",
+    })
+    await waitFor(() => expect(dialog).toBeVisible())
+  },
+}
+
+/**
+ * Opens from the trigger, moves focus to the first field, closes from a footer
+ * button, and returns focus to the trigger.
+ */
+export const OpenAndClose: Story = {
+  args: { disablePointerDismissal: true },
+  render: renderEditProfile,
   play: async ({ canvas, canvasElement }) => {
     const body = within(canvasElement.ownerDocument.body)
     const trigger = canvas.getByRole("button", { name: "Edit profile" })
@@ -134,6 +187,54 @@ export const Playground: Story = {
     await expect(onSave).toHaveBeenCalledOnce()
     await waitForClosed(body)
     await expect(trigger).toHaveFocus()
+  },
+}
+
+/** Escape closes the dialog without running its action, and focus returns to the trigger. */
+export const EscapeCloses: Story = {
+  args: { disablePointerDismissal: true },
+  render: renderEditProfile,
+  play: async ({ canvas, canvasElement }) => {
+    const body = within(canvasElement.ownerDocument.body)
+    const trigger = canvas.getByRole("button", { name: "Edit profile" })
+    await userEvent.click(trigger)
+    await body.findByRole("dialog", { name: "Edit profile" })
+    await waitFor(() => expect(body.getByLabelText("Name")).toHaveFocus())
+
+    await userEvent.keyboard("{Escape}")
+    await waitForClosed(body)
+    await expect(onSave).not.toHaveBeenCalled()
+    await expect(trigger).toHaveFocus()
+  },
+}
+
+/** Information only: no X button, and the footer adds its own "Close" button. */
+export const WithoutCloseButton: Story = {
+  render: (args) => (
+    <Page>
+      <Dialog {...args}>
+        <DialogTrigger render={<Button variant="outline" />}>
+          What's new
+        </DialogTrigger>
+        <DialogContent showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>What's new in version 2.4</DialogTitle>
+            <DialogDescription>
+              Faster search, a new dark theme, and saved filters on every list.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter showCloseButton />
+        </DialogContent>
+      </Dialog>
+    </Page>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    const body = within(canvasElement.ownerDocument.body)
+    await userEvent.click(canvas.getByRole("button", { name: "What's new" }))
+    const dialog = await body.findByRole("dialog")
+    await expect(within(dialog).getAllByRole("button")).toHaveLength(1)
+    await userEvent.click(within(dialog).getByRole("button", { name: "Close" }))
+    await waitForClosed(body)
   },
 }
 
@@ -183,44 +284,13 @@ export const ConfirmDelete: Story = {
     await userEvent.click(trigger)
 
     await body.findByRole("dialog", { name: "Delete project?" })
-    await waitFor(() =>
-      expect(body.getByRole("button", { name: "Cancel" })).toHaveFocus()
-    )
+    const cancel = body.getByRole("button", { name: "Cancel" })
+    await waitFor(() => expect(cancel).toHaveFocus())
 
-    await userEvent.keyboard("{Escape}")
+    await userEvent.click(cancel)
     await waitForClosed(body)
     await expect(onDelete).not.toHaveBeenCalled()
     await expect(trigger).toHaveFocus()
-  },
-}
-
-/** Information only: no X button, and the footer adds its own "Close" button. */
-export const FooterCloseButton: Story = {
-  render: (args) => (
-    <Page>
-      <Dialog {...args}>
-        <DialogTrigger render={<Button variant="outline" />}>
-          What's new
-        </DialogTrigger>
-        <DialogContent showCloseButton={false}>
-          <DialogHeader>
-            <DialogTitle>What's new in version 2.4</DialogTitle>
-            <DialogDescription>
-              Faster search, a new dark theme, and saved filters on every list.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter showCloseButton />
-        </DialogContent>
-      </Dialog>
-    </Page>
-  ),
-  play: async ({ canvas, canvasElement }) => {
-    const body = within(canvasElement.ownerDocument.body)
-    await userEvent.click(canvas.getByRole("button", { name: "What's new" }))
-    const dialog = await body.findByRole("dialog")
-    await expect(within(dialog).getAllByRole("button")).toHaveLength(1)
-    await userEvent.click(within(dialog).getByRole("button", { name: "Close" }))
-    await waitForClosed(body)
   },
 }
 
@@ -230,6 +300,7 @@ export const FooterCloseButton: Story = {
  */
 export const LongContent: Story = {
   args: { defaultOpen: true },
+  parameters: OPEN_IN_DOCS,
   render: (args) => (
     <Page>
       <Dialog {...args}>
