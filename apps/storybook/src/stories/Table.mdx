@@ -1,0 +1,10 @@
+import { Markdown, Meta } from "@storybook/addon-docs/blocks"
+
+import * as TableStories from "./Table.stories"
+// The usage guideline lives beside the component. It is rendered here as-is,
+// so edit table.md, not this file.
+import guidelines from "../../../../packages/ui/src/components/ui/Table/table.md?raw"
+
+<Meta of={TableStories} name="Guidelines" />
+
+<Markdown>{guidelines}</Markdown>
