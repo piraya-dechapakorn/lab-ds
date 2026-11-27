@@ -11,7 +11,7 @@ import {
   InputOTPSlot,
 } from "lab-ds"
 import type { InputOTPProps } from "lab-ds"
-import { expect, fn, userEvent } from "storybook/test"
+import { expect, fn, userEvent, waitFor } from "storybook/test"
 
 /** Digits only. The same value as `REGEXP_ONLY_DIGITS` from `input-otp`. */
 const DIGITS_ONLY = "^\\d+$"
@@ -162,12 +162,17 @@ export const SingleGroup: Story = {
   ),
 }
 
-/** Each state the CSS styles: empty, filled, `aria-invalid` on the slots, and disabled. */
+/**
+ * Each state the CSS styles: empty, `data-active` (the `play` function focuses
+ * that row, since only one field can have focus), filled, `aria-invalid` on
+ * the slots, and disabled.
+ */
 export const States: Story = {
   parameters: { layout: "padded" },
   render: (args) => {
     const states = [
       { label: "empty", props: {}, invalid: false },
+      { label: "data-active", props: { defaultValue: "12" }, invalid: false },
       { label: "filled", props: { defaultValue: "123456" }, invalid: false },
       {
         label: "aria-invalid",
@@ -197,6 +202,19 @@ export const States: Story = {
       </div>
     )
   },
+  play: async ({ canvas, canvasElement }) => {
+    const input = canvas.getByLabelText("data-active")
+    // focus() rather than a click: a click moves the caret to the slot under
+    // the pointer, while focus puts it after the "12" already entered.
+    input.focus()
+    const row = input.closest(".contents")
+    const slots = row?.querySelectorAll("[data-slot='input-otp-slot']") ?? []
+    // The next character goes into the third slot, and only that one is active.
+    await waitFor(() => expect(slots[2]).toHaveAttribute("data-active", "true"))
+    await expect(
+      canvasElement.querySelectorAll("[data-active='true']")
+    ).toHaveLength(1)
+  },
 }
 
 /** A wrong code: `aria-invalid` on every slot and the input, and the message in a FieldError. */
@@ -223,12 +241,17 @@ export const Invalid: Story = {
       </FieldError>
     </Field>
   ),
-  play: async ({ canvas }) => {
+  play: async ({ canvas, canvasElement }) => {
     const input = canvas.getByLabelText("Verification code")
     await expect(input).toBeInvalid()
     await expect(input).toHaveAccessibleDescription(
       "That code is wrong. Check the latest text message and try again."
     )
+    // Focusing a full, invalid code makes the last slot active and invalid.
+    input.focus()
+    const slots = canvasElement.querySelectorAll("[data-slot='input-otp-slot']")
+    await waitFor(() => expect(slots[5]).toHaveAttribute("data-active", "true"))
+    await expect(slots[5]).toHaveAttribute("aria-invalid", "true")
   },
 }
 

@@ -121,15 +121,16 @@ Any other `<input>` attribute, such as `id`, `name`, `aria-label` or `aria-descr
 
 ## States
 
-| State | How to set it | Look |
-| --- | --- | --- |
-| Empty | | Light grey slots |
-| Active | The slot the next character goes into, while the field has focus | `--ring` border and ring, and a blinking caret when empty |
-| Filled | | The character, centred |
-| Invalid | `aria-invalid` on each `InputOTPSlot` | `--destructive` borders, and a red ring around the group |
-| Disabled | `disabled` on `InputOTP` | The whole row at 50% opacity |
+| State | How to set it | Attribute the CSS styles | Look |
+| --- | --- | --- | --- |
+| Empty | | | Light grey slots |
+| Active | Set by the component on the slot the next character goes into, while the field has focus. When every slot is filled, the last slot is active | `data-active="true"` on `InputOTPSlot` | `--ring` border and ring (30%), raised above its neighbours, and a blinking caret when empty |
+| Filled | | | The character, centred |
+| Invalid | `aria-invalid` on each `InputOTPSlot` | `aria-invalid="true"` on `InputOTPSlot`, and `InputOTPGroup` when it contains one | `--destructive` borders, and a red ring around the group (20%, or 40% in dark mode) |
+| Active and invalid | The active slot of an invalid code | `data-active="true"` and `aria-invalid="true"` on `InputOTPSlot` | `--destructive` border with a `--destructive` ring (20%, or 40% in dark mode) instead of the `--ring` one |
+| Disabled | `disabled` on `InputOTP` | `:disabled` on the invisible text box | The whole row at 50% opacity, with a not-allowed cursor |
 
-The `States` story shows each one.
+The `States` story shows each one except active and invalid, which you see by focusing the field in the `Invalid` story. Only one field can have focus at a time, so the `States` story's `play` function focuses the `active` row.
 
 ## Tokens used
 
