@@ -1,0 +1,10 @@
+import { Markdown, Meta } from "@storybook/addon-docs/blocks"
+
+import * as AvatarStories from "./Avatar.stories"
+// The usage guideline lives beside the component. It is rendered here as-is,
+// so edit avatar.md, not this file.
+import guidelines from "../../../../packages/ui/src/components/ui/Avatar/avatar.md?raw"
+
+<Meta of={AvatarStories} name="Guidelines" />
+
+<Markdown>{guidelines}</Markdown>
