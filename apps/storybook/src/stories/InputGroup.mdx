@@ -1,0 +1,10 @@
+import { Markdown, Meta } from "@storybook/addon-docs/blocks"
+
+import * as InputGroupStories from "./InputGroup.stories"
+// The usage guideline lives beside the component. It is rendered here as-is,
+// so edit inputgroup.md, not this file.
+import guidelines from "../../../../packages/ui/src/components/ui/InputGroup/inputgroup.md?raw"
+
+<Meta of={InputGroupStories} name="Guidelines" />
+
+<Markdown>{guidelines}</Markdown>

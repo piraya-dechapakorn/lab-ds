@@ -46,7 +46,19 @@ Before you add or change a component, write or update its spec at `src/component
 - **Design**: every variant and size, every state with the data or ARIA attribute the module CSS styles for it, and the tokens it uses.
 - **LLM**: Markdown tables that give exact prop and value names, plus the public `lds-*` class names. State each fact in a table or code block where it can be found.
 
+Right after the one-line purpose, every spec has an **Import and use** section with three steps (see `Dialog/dialog.md`):
+
+1. The one-time setup: `pnpm add lab-ds` and the two CSS imports from the README.
+2. The import line, naming every part.
+3. A minimal structure that uses those parts.
+
 The spec is done when every prop, variant, size, styled state and public class name in the code appears in it. Update it in the same change as the code and the story's `argTypes`. It is not a build entry and does not ship in `dist`.
+
+### When a spec `.md` changes, update Storybook in the same change
+
+- Each spec has a Guidelines page at `apps/storybook/src/stories/<Name>.mdx`. The page imports the `.md` with `?raw` and renders it through `<Markdown>`. A new spec gets a new page; copy `Dialog.mdx`. Write your changes in the `.md`, since the page only displays it. This raw import is the one place Storybook reads from `packages/ui/src`.
+- Every example a spec quotes is taken from a story. When the spec changes an example, prop, variant or behaviour, update the matching story, its `argTypes` and its `play` test so they agree.
+- The change is done when the Guidelines page in Storybook shows the new text and every quoted example matches its story.
 
 ## Architecture rules
 
