@@ -1,0 +1,60 @@
+/*
+ * Checkbox — styles only. State comes from Base UI's data attributes:
+ * [data-checked], [data-indeterminate], [data-disabled]. The root is a
+ * <span role="checkbox">, so :disabled never matches it.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    @apply relative flex size-4 shrink-0 items-center justify-center rounded-[5px] border border-transparent bg-input/90 transition-shadow outline-none;
+    @apply focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30;
+    @apply aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20;
+
+    /* a larger, invisible hit area: 40 x 32px */
+    @apply after:absolute after:-inset-x-3 after:-inset-y-2;
+
+    :global(.dark) &[aria-invalid="true"] {
+      @apply border-destructive/50 ring-destructive/40;
+    }
+
+    &[data-checked],
+    &[data-indeterminate] {
+      @apply border-primary bg-primary text-primary-foreground;
+    }
+    &[aria-invalid="true"]:is([data-checked], [data-indeterminate]) {
+      @apply border-primary;
+    }
+
+    &[data-disabled] {
+      @apply cursor-not-allowed opacity-50;
+    }
+
+    /* inside a Field that has a disabled control */
+    :global([data-slot="field"]):has(:disabled, [data-disabled]) & {
+      @apply opacity-50;
+    }
+    /* a FieldLabel choice card draws the focus ring itself */
+    :global([data-slot="field-label"]):has(:focus-visible) & {
+      @apply ring-0;
+
+      &:not([data-checked], [data-indeterminate]) {
+        @apply border-transparent;
+      }
+    }
+  }
+
+  .indicator {
+    @apply grid place-content-center text-current transition-none;
+
+    & > svg {
+      @apply size-3.5;
+    }
+    &[data-indeterminate] > .check,
+    &:not([data-indeterminate]) > .minus {
+      @apply hidden;
+    }
+  }
+}

@@ -28,7 +28,7 @@ function findPackageRoot(start: string) {
     const pkg = path.join(dir, "package.json")
     if (
       fs.existsSync(pkg) &&
-      JSON.parse(fs.readFileSync(pkg, "utf8")).name === "lab-ds"
+      JSON.parse(fs.readFileSync(pkg, "utf8")).name === "@piraya.d/ai_designsystem_lab"
     ) {
       return dir
     }
@@ -186,7 +186,7 @@ export async function writeStylesheet(
 
   const root = postcss.parse(
     [
-      "/*! lab-ds styles — import after `@import \"tailwindcss\"`. */",
+      "/*! @piraya.d/ai_designsystem_lab styles — import after `@import \"tailwindcss\"`. */",
       ...LAYER_ORDER,
       "/* ---- theme (read by the consumer's Tailwind) ---- */",
       parts.theme,

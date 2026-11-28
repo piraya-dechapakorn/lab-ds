@@ -4,7 +4,7 @@ import {
   ProductCardContent,
   ProductCardPrice,
   ProductCardTitle,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 
 import { products } from "./fixtures"
 

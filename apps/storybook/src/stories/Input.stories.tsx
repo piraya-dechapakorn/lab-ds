@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Field, FieldDescription, FieldError, FieldLabel, Input } from "lab-ds"
+import { Field, FieldDescription, FieldError, FieldLabel, Input } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent } from "storybook/test"
 
 const TYPES = [

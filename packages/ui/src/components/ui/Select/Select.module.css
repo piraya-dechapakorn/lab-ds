@@ -1,0 +1,154 @@
+/*
+ * Select — styles only. Trigger size is selected with [data-size]; popup and
+ * item state come from Base UI's data attributes.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  /* ---- SelectTrigger ---------------------------------------------------- */
+
+  .trigger {
+    @apply flex w-fit items-center justify-between gap-1.5 rounded-3xl border border-transparent bg-input/50 px-3 py-2 text-sm whitespace-nowrap transition-[color,box-shadow,background-color] outline-none;
+    @apply focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30;
+    @apply aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20;
+
+    :global(.dark) &[aria-invalid="true"] {
+      @apply border-destructive/50 ring-destructive/40;
+    }
+
+    &:disabled,
+    &[data-disabled] {
+      @apply cursor-not-allowed opacity-50;
+    }
+    &[data-placeholder] {
+      @apply text-muted-foreground;
+    }
+
+    &[data-size="default"] {
+      @apply h-9;
+    }
+    &[data-size="sm"] {
+      @apply h-8;
+    }
+
+    & > [data-slot="select-value"] {
+      @apply line-clamp-1 flex items-center gap-1.5;
+    }
+    & svg {
+      @apply pointer-events-none shrink-0;
+    }
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+
+  .icon {
+    @apply pointer-events-none size-4 text-muted-foreground;
+  }
+
+  .value {
+    @apply flex flex-1 text-left;
+  }
+
+  /* ---- SelectContent ---------------------------------------------------- */
+
+  .positioner {
+    @apply isolate z-50;
+  }
+
+  .content {
+    @apply relative isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-3xl bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/5 duration-100;
+    @apply data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95;
+    @apply data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95;
+
+    &[data-side="bottom"] {
+      @apply slide-in-from-top-2;
+    }
+    &[data-side="top"] {
+      @apply slide-in-from-bottom-2;
+    }
+    &[data-side="left"],
+    &[data-side="inline-start"] {
+      @apply slide-in-from-right-2;
+    }
+    &[data-side="right"],
+    &[data-side="inline-end"] {
+      @apply slide-in-from-left-2;
+    }
+    /* opening over the trigger: appear in place */
+    &[data-align-trigger="true"] {
+      @apply animate-none;
+    }
+
+    :global(.dark) & {
+      @apply ring-foreground/10;
+    }
+  }
+
+  /* ---- groups, labels, separators -------------------------------------- */
+
+  .group {
+    @apply scroll-my-1.5 p-1.5;
+  }
+
+  .label {
+    @apply px-3 py-2.5 text-xs text-muted-foreground;
+  }
+
+  .separator {
+    @apply pointer-events-none -mx-1.5 my-1.5 h-px bg-border;
+  }
+
+  /* ---- SelectItem ------------------------------------------------------- */
+
+  .item {
+    @apply relative flex w-full cursor-default items-center gap-2.5 rounded-2xl py-2 pr-8 pl-3 text-sm font-medium outline-hidden select-none;
+
+    &:focus,
+    &[data-highlighted] {
+      @apply bg-accent text-accent-foreground;
+    }
+    &:not([data-variant="destructive"]):is(:focus, [data-highlighted]) * {
+      @apply text-accent-foreground;
+    }
+    &[data-disabled] {
+      @apply pointer-events-none opacity-50;
+    }
+
+    & svg {
+      @apply pointer-events-none shrink-0;
+    }
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+    & > span:last-child {
+      @apply flex items-center gap-2;
+    }
+  }
+
+  .itemText {
+    @apply flex flex-1 shrink-0 gap-2 whitespace-nowrap;
+  }
+
+  .itemIndicator {
+    @apply pointer-events-none absolute right-2 flex size-4 items-center justify-center;
+  }
+
+  /* ---- scroll arrows ---------------------------------------------------- */
+
+  .scrollButton {
+    @apply z-10 flex w-full cursor-default items-center justify-center bg-popover py-1;
+
+    &[data-slot="select-scroll-up-button"] {
+      @apply top-0;
+    }
+    &[data-slot="select-scroll-down-button"] {
+      @apply bottom-0;
+    }
+    & svg:not([class*="size-"]) {
+      @apply size-4;
+    }
+  }
+}

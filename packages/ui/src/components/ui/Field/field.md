@@ -9,15 +9,15 @@ The layout around a form control: its label, hint and error message, and the gro
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
 import {
@@ -32,7 +32,7 @@ import {
   FieldSet,
   FieldTitle,
   Input,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build a form** from this structure. Each `Field` holds one control:
@@ -181,7 +181,7 @@ import {
   FieldError,
   FieldLabel,
   Input,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 
 <Field data-invalid>
   <FieldLabel htmlFor="field-username">Username</FieldLabel>

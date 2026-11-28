@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { ProductCardTitle } from "lab-ds"
+import { ProductCardTitle } from "@piraya.d/ai_designsystem_lab"
 
 import { LONG_TITLE, products } from "./fixtures"
 

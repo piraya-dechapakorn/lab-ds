@@ -9,17 +9,17 @@ A modal window over the page that asks the user to finish one short task or make
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
 Dialog titles use the `--font-heading` font variable, which your app sets.
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
 import {
@@ -32,7 +32,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build the dialog** from this structure:
@@ -185,7 +185,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 
 function ConfirmDeleteDialog() {
   const cancelRef = React.useRef<HTMLButtonElement>(null)

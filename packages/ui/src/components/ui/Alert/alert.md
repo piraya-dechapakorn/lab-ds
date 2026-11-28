@@ -9,18 +9,18 @@ An inline message box that calls attention to important information on the page.
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
-import { Alert, AlertAction, AlertDescription, AlertTitle } from "lab-ds"
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build the alert** from this structure. Every part inside `Alert` is optional:
@@ -100,7 +100,7 @@ An error after a failed payment, from the `Variants` story in `Alert.stories.tsx
 
 ```tsx
 import { CircleAlert } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "lab-ds"
+import { Alert, AlertDescription, AlertTitle } from "@piraya.d/ai_designsystem_lab"
 
 <Alert variant="destructive">
   <CircleAlert />

@@ -6,7 +6,7 @@ import {
   ProductCardMedia,
   ProductCardPrice,
   ProductCardTitle,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 import { expect } from "storybook/test"
 
 import { LONG_TITLE, products } from "./fixtures"

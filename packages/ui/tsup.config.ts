@@ -31,7 +31,7 @@ function resolveSourceFile(base: string) {
  */
 function labDs(): Plugin {
   return {
-    name: "lab-ds",
+    name: "@piraya.d/ai_designsystem_lab",
     setup(build) {
       const outExt = build.initialOptions.format === "cjs" ? ".cjs" : ".js"
 
@@ -107,6 +107,24 @@ function restoreUseClient() {
   }
 }
 
+/**
+ * Ship each exported component's spec as dist/docs/<Name>.md. Only folders
+ * re-exported from src/index.ts count, so private components never ship docs.
+ */
+function copySpecs() {
+  const index = fs.readFileSync(path.join(SRC, "index.ts"), "utf8")
+  const exported = [
+    ...index.matchAll(/from\s+["']\.\/components\/ui\/([^"'/]+)["']/g),
+  ].map((m) => m[1])
+
+  const docs = path.join(DIST, "docs")
+  fs.mkdirSync(docs, { recursive: true })
+  for (const name of exported) {
+    const spec = path.join(SRC, "components/ui", name, `${name.toLowerCase()}.md`)
+    if (fs.existsSync(spec)) fs.copyFileSync(spec, path.join(docs, `${name}.md`))
+  }
+}
+
 export default defineConfig({
   entry: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
   format: ["esm", "cjs"],
@@ -124,5 +142,6 @@ export default defineConfig({
   },
   onSuccess: async () => {
     restoreUseClient()
+    copySpecs()
   },
 })

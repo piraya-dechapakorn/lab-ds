@@ -1,0 +1,70 @@
+/*
+ * Card — styles only. Spacing scale is selected with [data-size].
+ * Every part reads its padding from --card-spacing, set on the root.
+ */
+@layer properties, theme, base, components, utilities;
+@layer components.primitive, components.composite;
+@reference "../../../styles/globals.css";
+
+@layer components.primitive {
+  .root {
+    --card-spacing: --spacing(6);
+    @apply flex flex-col gap-(--card-spacing) overflow-hidden rounded-4xl bg-card py-(--card-spacing) text-sm text-card-foreground shadow-md ring-1 ring-foreground/5;
+
+    &[data-size="sm"] {
+      --card-spacing: --spacing(4);
+    }
+    :global(.dark) & {
+      @apply ring-foreground/10;
+    }
+
+    /* an image as the first / last child sits flush with that edge */
+    &:has(> img:first-child) {
+      @apply pt-0;
+    }
+    & > img:first-child {
+      @apply rounded-t-4xl;
+    }
+    & > img:last-child {
+      @apply rounded-b-4xl;
+    }
+  }
+
+  .header {
+    @apply @container/card-header grid auto-rows-min items-start gap-1.5 rounded-t-4xl px-(--card-spacing);
+
+    &:has([data-slot="card-action"]) {
+      @apply grid-cols-[1fr_auto];
+    }
+    &:has([data-slot="card-description"]) {
+      @apply grid-rows-[auto_auto];
+    }
+    &:global(.border-b) {
+      @apply pb-(--card-spacing);
+    }
+  }
+
+  .title {
+    @apply font-heading text-base font-medium;
+  }
+
+  .description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .action {
+    @apply col-start-2 row-span-2 row-start-1 self-start justify-self-end;
+  }
+
+  .content {
+    @apply px-(--card-spacing);
+  }
+
+  .footer {
+    @apply flex items-center rounded-b-4xl px-(--card-spacing);
+
+    &:global(.border-t) {
+      @apply pt-(--card-spacing);
+    }
+  }
+}

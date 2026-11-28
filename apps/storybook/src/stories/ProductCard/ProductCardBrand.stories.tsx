@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { ProductCardBrand } from "lab-ds"
+import { ProductCardBrand } from "@piraya.d/ai_designsystem_lab"
 
 const meta = {
   title: "Components/ProductCard/ProductCardBrand",

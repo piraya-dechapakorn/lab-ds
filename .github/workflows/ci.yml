@@ -1,0 +1,63 @@
+# Checks the package before a pull request merges into main or develop, and
+# those branches after a merge. The "Protect main" and "Protect develop"
+# rulesets require the "Check components" status check, so keep the job name.
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+# A newer push to the same PR cancels the run still going for the old one.
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: Check components
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      # Reads the pnpm version from "packageManager" in the root package.json.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Storybook's typecheck, build and tests all use the built package,
+      # so build lab-ds first.
+      - name: Build lab-ds
+        run: pnpm --filter @piraya.d/ai_designsystem_lab build
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Check components and dist
+        run: pnpm --filter @piraya.d/ai_designsystem_lab check:package
+
+      - name: List what npm would publish
+        run: pnpm --filter @piraya.d/ai_designsystem_lab exec npm pack --dry-run
+
+      - name: Build Storybook
+        run: pnpm --filter storybook build
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter storybook exec playwright install --with-deps chromium
+
+      - name: Run story and play tests
+        run: pnpm --filter storybook test
