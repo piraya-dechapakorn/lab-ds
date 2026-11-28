@@ -32,7 +32,7 @@ importers:
 
   apps/storybook:
     dependencies:
-      lab-ds:
+      '@piraya.d/ai_designsystem_lab':
         specifier: workspace:*
         version: link:../../packages/ui
       lucide-react:

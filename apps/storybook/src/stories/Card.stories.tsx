@@ -11,8 +11,8 @@ import {
   Field,
   FieldLabel,
   Input,
-} from "lab-ds"
-import type { CardSize } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { CardSize } from "@piraya.d/ai_designsystem_lab"
 import { expect, within } from "storybook/test"
 
 const SIZES: CardSize[] = ["default", "sm"]

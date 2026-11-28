@@ -9,18 +9,18 @@ A row of tabs that switches between panels of related content in the same place 
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "lab-ds"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build the tabs** from this structure. Each `TabsTrigger` and its `TabsContent` share a `value`:

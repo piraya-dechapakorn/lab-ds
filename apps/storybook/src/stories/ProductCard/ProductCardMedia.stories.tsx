@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { ProductCardMedia } from "lab-ds"
+import { ProductCardMedia } from "@piraya.d/ai_designsystem_lab"
 import { expect } from "storybook/test"
 
 import { products } from "./fixtures"

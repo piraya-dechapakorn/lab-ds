@@ -1,8 +1,8 @@
 /**
  * Checks the rules in AGENTS.md that lint, typecheck and the build cannot see.
- * Run it after `pnpm --filter lab-ds build`:
+ * Run it after `pnpm --filter @piraya.d/ai_designsystem_lab build`:
  *
- *   pnpm --filter lab-ds check:package
+ *   pnpm --filter @piraya.d/ai_designsystem_lab check:package
  *
  * Components (source):
  *   - every component folder is exported from src/index.ts;
@@ -78,7 +78,7 @@ for (const name of componentNames) {
 
 if (!fs.existsSync(DIST)) {
   fail(
-    "packages/ui/dist does not exist. Run `pnpm --filter lab-ds build` first."
+    "packages/ui/dist does not exist. Run `pnpm --filter @piraya.d/ai_designsystem_lab build` first."
   )
 } else {
   const distFiles = walk(DIST)
@@ -158,6 +158,19 @@ if (!fs.existsSync(DIST)) {
         if (!inStyles) fail(`${key}: ${cls} is not in dist/styles.css`)
       }
     }
+  }
+
+  // Every exported component ships its spec as dist/docs/<Name>.md, and
+  // nothing else lands in dist/docs.
+  const docsDir = path.join(DIST, "docs")
+  const shippedDocs = fs.existsSync(docsDir) ? fs.readdirSync(docsDir) : []
+  for (const name of componentNames) {
+    if (!shippedDocs.includes(`${name}.md`))
+      fail(`${name}: missing dist/docs/${name}.md`)
+  }
+  for (const doc of shippedDocs) {
+    if (!componentNames.includes(doc.replace(/\.md$/, "")))
+      fail(`dist/docs/${doc}: no exported component of that name`)
   }
 
   // styles.css is the only CSS file.

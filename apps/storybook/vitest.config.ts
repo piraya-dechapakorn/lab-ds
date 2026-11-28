@@ -10,7 +10,7 @@ import { defineConfig } from "vitest/config"
  *
  *   pnpm --filter storybook test
  *
- * Like Storybook itself, this uses the built `lab-ds`, so build it first.
+ * Like Storybook itself, this uses the built `@piraya.d/ai_designsystem_lab`, so build it first.
  */
 export default defineConfig({
   plugins: [

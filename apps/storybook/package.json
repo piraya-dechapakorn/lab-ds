@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "lab-ds": "workspace:*",
+    "@piraya.d/ai_designsystem_lab": "workspace:*",
     "lucide-react": "^1.70.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"

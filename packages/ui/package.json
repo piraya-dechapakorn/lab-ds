@@ -1,8 +1,20 @@
 {
-  "name": "lab-ds",
-  "version": "0.0.0",
+  "name": "@piraya.d/ai_designsystem_lab",
+  "version": "1.0.0",
   "description": "React + TypeScript design system built on Base UI and Tailwind CSS v4.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piraya-dechapakorn/lab-ds.git",
+    "directory": "packages/ui"
+  },
+  "keywords": [
+    "react",
+    "design-system",
+    "components",
+    "base-ui",
+    "tailwindcss"
+  ],
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -27,6 +39,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

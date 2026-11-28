@@ -14,7 +14,7 @@ import {
   FieldGroup,
   FieldLabel,
   Input,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent, waitFor, within } from "storybook/test"
 
 const onSave = fn()

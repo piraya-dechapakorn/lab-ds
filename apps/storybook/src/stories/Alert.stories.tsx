@@ -6,8 +6,8 @@ import {
   AlertDescription,
   AlertTitle,
   Button,
-} from "lab-ds"
-import type { AlertVariant } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { AlertVariant } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent } from "storybook/test"
 
 const VARIANTS: AlertVariant[] = ["default", "destructive"]

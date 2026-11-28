@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Separator } from "lab-ds"
+import { Separator } from "@piraya.d/ai_designsystem_lab"
 import { expect } from "storybook/test"
 
 const meta = {

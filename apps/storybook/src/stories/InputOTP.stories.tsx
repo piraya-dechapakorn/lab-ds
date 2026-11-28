@@ -9,8 +9,8 @@ import {
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "lab-ds"
-import type { InputOTPProps } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { InputOTPProps } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent, waitFor } from "storybook/test"
 
 /** Digits only. The same value as `REGEXP_ONLY_DIGITS` from `input-otp`. */

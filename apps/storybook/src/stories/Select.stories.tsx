@@ -11,8 +11,8 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "lab-ds"
-import type { SelectTriggerSize } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { SelectTriggerSize } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent, waitFor, within } from "storybook/test"
 
 const FRUITS = [

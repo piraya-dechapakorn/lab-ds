@@ -1,6 +1,6 @@
 /* Set up exactly as the lab-ds README tells consumers to. */
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 
 /* lab-ds reads these from the app (README → Fonts). */
 :root {

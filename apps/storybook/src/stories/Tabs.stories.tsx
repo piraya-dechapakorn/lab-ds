@@ -13,8 +13,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "lab-ds"
-import type { TabsListVariant } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { TabsListVariant } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent, waitFor } from "storybook/test"
 
 const VARIANTS: TabsListVariant[] = ["default", "line"]

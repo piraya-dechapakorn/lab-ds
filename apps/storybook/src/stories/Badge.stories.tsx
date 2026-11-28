@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ArrowUpRight, BadgeCheck, CircleAlert } from "lucide-react"
-import { Badge, badgeStyles } from "lab-ds"
-import type { BadgeVariant } from "lab-ds"
+import { Badge, badgeStyles } from "@piraya.d/ai_designsystem_lab"
+import type { BadgeVariant } from "@piraya.d/ai_designsystem_lab"
 import { expect, userEvent } from "storybook/test"
 
 const VARIANTS: BadgeVariant[] = [

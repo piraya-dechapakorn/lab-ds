@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ArrowRight, Mail, Plus, Trash2 } from "lucide-react"
-import { Button, buttonStyles } from "lab-ds"
-import type { ButtonSize, ButtonVariant } from "lab-ds"
+import { Button, buttonStyles } from "@piraya.d/ai_designsystem_lab"
+import type { ButtonSize, ButtonVariant } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent } from "storybook/test"
 
 const VARIANTS: ButtonVariant[] = [

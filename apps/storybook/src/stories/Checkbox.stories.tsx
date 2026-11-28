@@ -1,6 +1,6 @@
 import * as React from "react"
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Checkbox, Field, FieldGroup, FieldLabel } from "lab-ds"
+import { Checkbox, Field, FieldGroup, FieldLabel } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent, within } from "storybook/test"
 
 const OPTIONS = [

@@ -15,18 +15,18 @@ A clickable button built on the Base UI [`Button`](https://base-ui.com/react/com
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
 **2. Import and render it:**
 
 ```tsx
-import { Button } from "lab-ds"
+import { Button } from "@piraya.d/ai_designsystem_lab"
 
 <Button>Save</Button>
 <Button variant="outline" size="sm">Cancel</Button>
@@ -50,7 +50,7 @@ An SVG inside the button is `size-4` by default (`size-3` for `xs` and `icon-xs`
 `buttonStyles()` returns `className`, `data-variant` and `data-size` props, so any element (for example a link) can look like a Button:
 
 ```tsx
-import { buttonStyles } from "lab-ds"
+import { buttonStyles } from "@piraya.d/ai_designsystem_lab"
 
 <a href="/pricing" {...buttonStyles({ variant: "outline", size: "lg" })}>
   Pricing

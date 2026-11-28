@@ -9,15 +9,15 @@ A small round picture of a person, with their initials shown while the picture l
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
 import {
@@ -27,7 +27,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build the avatar** from this structure. Always include a fallback:
@@ -145,7 +145,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 
 <AvatarGroup role="group" aria-label="Project members: 7 people">
   <Avatar>

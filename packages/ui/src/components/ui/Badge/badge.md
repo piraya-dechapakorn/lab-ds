@@ -9,18 +9,18 @@ A small pill-shaped label for a short status or category on an item, such as "Pa
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import it** from `lab-ds`:
+**2. Import it** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
-import { Badge } from "lab-ds"
+import { Badge } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Put one or two words inside it:**
@@ -38,7 +38,7 @@ Badge has no `"use client"` and works in React Server Components.
 `badgeStyles()` returns `className` and `data-variant`, so any element, such as a framework `<Link>`, can look like a Badge:
 
 ```tsx
-import { badgeStyles } from "lab-ds"
+import { badgeStyles } from "@piraya.d/ai_designsystem_lab"
 
 <a href="/tags/new" {...badgeStyles({ variant: "secondary" })}>New</a>
 ```
@@ -137,7 +137,7 @@ Every token has a dark-mode value.
 Order statuses in a list, from the `StatusInList` story in `Badge.stories.tsx`:
 
 ```tsx
-import { Badge } from "lab-ds"
+import { Badge } from "@piraya.d/ai_designsystem_lab"
 
 <ul className="flex max-w-sm flex-col divide-y text-sm">
   <li className="flex items-center justify-between py-2">

@@ -9,17 +9,17 @@ A card for one product in a shop listing: its picture, brand, name and price, in
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
 Product titles and prices use the `--font-heading` font variable, which your app sets.
 
-**2. Import the parts you need** from `lab-ds`:
+**2. Import the parts you need** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
 import {
@@ -29,7 +29,7 @@ import {
   ProductCardMedia,
   ProductCardPrice,
   ProductCardTitle,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Build the card** from this structure:
@@ -110,7 +110,7 @@ The other parts take the attributes of their HTML element (`article`, `div`, `p`
 `ProductCardPrice` uses `formatPrice(amount, currency?, locale?)`. Whole amounts drop the decimals (฿1,290), others keep two (฿349.50). It is exported, has no `"use client"` and is safe to call from React Server Components:
 
 ```tsx
-import { formatPrice } from "lab-ds"
+import { formatPrice } from "@piraya.d/ai_designsystem_lab"
 
 formatPrice(1290) // "฿1,290"
 formatPrice(19.9, "USD", "en-US") // "$19.90"
@@ -160,7 +160,7 @@ import {
   ProductCardMedia,
   ProductCardPrice,
   ProductCardTitle,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 
 <ProductCard className="w-64">
   <ProductCardMedia>

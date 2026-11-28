@@ -7,8 +7,8 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-} from "lab-ds"
-import type { AvatarSize } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { AvatarSize } from "@piraya.d/ai_designsystem_lab"
 import { expect, waitFor } from "storybook/test"
 
 const SIZES: AvatarSize[] = ["sm", "default", "lg"]

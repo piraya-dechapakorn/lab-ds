@@ -39,7 +39,7 @@ jobs:
       # Storybook's typecheck, build and tests all use the built package,
       # so build lab-ds first.
       - name: Build lab-ds
-        run: pnpm --filter lab-ds build
+        run: pnpm --filter @piraya.d/ai_designsystem_lab build
 
       - name: Lint
         run: pnpm lint
@@ -48,10 +48,10 @@ jobs:
         run: pnpm typecheck
 
       - name: Check components and dist
-        run: pnpm --filter lab-ds check:package
+        run: pnpm --filter @piraya.d/ai_designsystem_lab check:package
 
       - name: List what npm would publish
-        run: pnpm --filter lab-ds exec npm pack --dry-run
+        run: pnpm --filter @piraya.d/ai_designsystem_lab exec npm pack --dry-run
 
       - name: Build Storybook
         run: pnpm --filter storybook build

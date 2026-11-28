@@ -9,18 +9,18 @@ The visible name of a form control, which also focuses or toggles the control wh
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import it** from `lab-ds`:
+**2. Import it** from `@piraya.d/ai_designsystem_lab`:
 
 ```tsx
-import { Input, Label } from "lab-ds"
+import { Input, Label } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Point it at its control.** `htmlFor` must match the control's `id`:
@@ -94,7 +94,7 @@ Label sets no colour of its own. It inherits the text colour of its container, u
 A label that focuses its Input, from the `WithInput` story in `Label.stories.tsx`:
 
 ```tsx
-import { Input, Label } from "lab-ds"
+import { Input, Label } from "@piraya.d/ai_designsystem_lab"
 
 <div className="grid w-64 gap-2">
   <Label htmlFor="label-email">Email</Label>

@@ -9,18 +9,18 @@ A single-line text box for a short answer, such as a name, an email address or a
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import it** from `lab-ds`, with **Field** for the label and hint:
+**2. Import it** from `@piraya.d/ai_designsystem_lab`, with **Field** for the label and hint:
 
 ```tsx
-import { Field, FieldDescription, FieldLabel, Input } from "lab-ds"
+import { Field, FieldDescription, FieldLabel, Input } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Give every Input a visible label.** The label's `htmlFor` must match the Input's `id`:
@@ -121,7 +121,7 @@ These come from comparing the component with GOV.UK, Atlassian, Carbon, NN/g and
 An email field with a label and a hint, from the `WithLabel` story in `Input.stories.tsx`:
 
 ```tsx
-import { Field, FieldDescription, FieldLabel, Input } from "lab-ds"
+import { Field, FieldDescription, FieldLabel, Input } from "@piraya.d/ai_designsystem_lab"
 
 <Field>
   <FieldLabel htmlFor="input-email">Email</FieldLabel>

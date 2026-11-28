@@ -10,8 +10,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "lab-ds"
-import type { TableDensity } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { TableDensity } from "@piraya.d/ai_designsystem_lab"
 import { expect, userEvent, within } from "storybook/test"
 
 const INVOICES = [

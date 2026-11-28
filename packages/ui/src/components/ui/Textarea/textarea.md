@@ -9,18 +9,18 @@ A multi-line text box that grows with its content, for answers longer than one l
 **1. Set up once per app.** Install the package, then import its styles once, after Tailwind, in your global CSS file. The package README has the full setup.
 
 ```bash
-pnpm add lab-ds
+pnpm add @piraya.d/ai_designsystem_lab
 ```
 
 ```css
 @import "tailwindcss";
-@import "lab-ds/styles.css";
+@import "@piraya.d/ai_designsystem_lab/styles.css";
 ```
 
-**2. Import it** from `lab-ds`, with **Field** for the label and hint:
+**2. Import it** from `@piraya.d/ai_designsystem_lab`, with **Field** for the label and hint:
 
 ```tsx
-import { Field, FieldDescription, FieldLabel, Textarea } from "lab-ds"
+import { Field, FieldDescription, FieldLabel, Textarea } from "@piraya.d/ai_designsystem_lab"
 ```
 
 **3. Give every Textarea a visible label.** The label's `htmlFor` must match the Textarea's `id`:
@@ -112,7 +112,7 @@ These come from comparing the component with GOV.UK, Carbon, MDN and WCAG. None 
 A feedback field with a linked hint, from the `WithLabel` story in `Textarea.stories.tsx`:
 
 ```tsx
-import { Field, FieldDescription, FieldLabel, Textarea } from "lab-ds"
+import { Field, FieldDescription, FieldLabel, Textarea } from "@piraya.d/ai_designsystem_lab"
 
 <Field>
   <FieldLabel htmlFor="textarea-feedback">Feedback</FieldLabel>

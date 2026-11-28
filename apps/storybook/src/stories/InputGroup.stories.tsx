@@ -10,8 +10,8 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
-} from "lab-ds"
-import type { InputGroupAddonAlign, InputGroupButtonSize } from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
+import type { InputGroupAddonAlign, InputGroupButtonSize } from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent } from "storybook/test"
 
 const ALIGNS: InputGroupAddonAlign[] = [

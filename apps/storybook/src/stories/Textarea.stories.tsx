@@ -5,7 +5,7 @@ import {
   FieldError,
   FieldLabel,
   Textarea,
-} from "lab-ds"
+} from "@piraya.d/ai_designsystem_lab"
 import { expect, fn, userEvent } from "storybook/test"
 
 const meta = {

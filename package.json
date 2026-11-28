@@ -7,7 +7,7 @@
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",
-    "storybook": "pnpm --filter lab-ds build && pnpm --parallel --filter lab-ds --filter storybook dev"
+    "storybook": "pnpm --filter @piraya.d/ai_designsystem_lab build && pnpm --parallel --filter @piraya.d/ai_designsystem_lab --filter storybook dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

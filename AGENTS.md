@@ -8,9 +8,9 @@ A public React + TypeScript design system published to npm. Components are shadc
 
 ## Layout (pnpm monorepo)
 
-- `packages/ui`: the published npm package, named `lab-ds` (unscoped). pnpm `--filter` matches this name, not the folder name. Components, tokens and styles live here. Built with tsup.
-- `apps/storybook`: Storybook 10 (`@storybook/react-vite`), package name `storybook`. It depends on `lab-ds` through `workspace:*`, so it uses the built `dist`, the way an external app would.
-- `apps/docs` (planned): Next.js App Router, also using `lab-ds` through `workspace:*`.
+- `packages/ui`: the published npm package, named `@piraya.d/ai_designsystem_lab` (scoped, published with public access). pnpm `--filter` matches this name, not the folder name. Components, tokens and styles live here. Built with tsup.
+- `apps/storybook`: Storybook 10 (`@storybook/react-vite`), package name `storybook`. It depends on `@piraya.d/ai_designsystem_lab` through `workspace:*`, so it uses the built `dist`, the way an external app would.
+- `apps/docs` (planned): Next.js App Router, also using `@piraya.d/ai_designsystem_lab` through `workspace:*`.
 - Root: pnpm workspace config, plus shared TypeScript (`tsconfig.base.json`), ESLint (`eslint.config.mjs`) and Prettier config.
 
 ## Commands
@@ -19,13 +19,13 @@ Run these from the repo root. pnpm is pinned in the root `package.json` (`packag
 
 ```bash
 pnpm install
-pnpm --filter lab-ds build        # tsup → packages/ui/dist (ESM + CJS + .d.ts + styles.css)
-pnpm --filter lab-ds dev          # tsup --watch
+pnpm --filter @piraya.d/ai_designsystem_lab build        # tsup → packages/ui/dist (ESM + CJS + .d.ts + styles.css)
+pnpm --filter @piraya.d/ai_designsystem_lab dev          # tsup --watch
 pnpm storybook                    # builds lab-ds, then runs tsup --watch + Storybook on :6006
 pnpm --filter storybook build     # static Storybook → apps/storybook/storybook-static
 pnpm lint
 pnpm typecheck
-pnpm --filter lab-ds check:package   # after a build: component files + dist rules (see below)
+pnpm --filter @piraya.d/ai_designsystem_lab check:package   # after a build: component files + dist rules (see below)
 pnpm --filter storybook test         # after a build: every story + play test in headless Chromium
 ```
 
@@ -39,8 +39,8 @@ There is no unit test runner. Ask before adding one. Tests are Storybook stories
 
 ## Storybook
 
-- Stories live in `apps/storybook/src/stories/<Name>.stories.tsx`. A compound component gets a folder with one file per part (see `ProductCard/`, titled `Components/ProductCard/<Part>`) and a shared `fixtures.ts`. Fixture images are inline SVG data URIs, so stories make no network requests. All stories import from `"lab-ds"`, never from `packages/ui/src`. Stories therefore show what ships, but `lab-ds` must be built first. `pnpm storybook` builds it and keeps `tsup --watch` running.
-- `src/styles.css` follows the consumer setup from the README (`@import "tailwindcss"; @import "lab-ds/styles.css";`) and sets `--font-sans` / `--font-heading`. Tailwind runs through `@tailwindcss/vite`, so layout utilities inside stories work.
+- Stories live in `apps/storybook/src/stories/<Name>.stories.tsx`. A compound component gets a folder with one file per part (see `ProductCard/`, titled `Components/ProductCard/<Part>`) and a shared `fixtures.ts`. Fixture images are inline SVG data URIs, so stories make no network requests. All stories import from `"@piraya.d/ai_designsystem_lab"`, never from `packages/ui/src`. Stories therefore show what ships, but `@piraya.d/ai_designsystem_lab` must be built first. `pnpm storybook` builds it and keeps `tsup --watch` running.
+- `src/styles.css` follows the consumer setup from the README (`@import "tailwindcss"; @import "@piraya.d/ai_designsystem_lab/styles.css";`) and sets `--font-sans` / `--font-heading`. Tailwind runs through `@tailwindcss/vite`, so layout utilities inside stories work.
 - Docgen cannot read the built package, so each story file declares its `argTypes` (options, descriptions, defaults) by hand. Keep them in sync with the component's props.
 - The toolbar's Theme global toggles `.dark` on `<html>` (decorator in `.storybook/preview.ts`).
 - Use `Button.stories.tsx` as the pattern for new stories: a `Playground` story for controls, a grid of variants and sizes, a `States` matrix of the data and ARIA attributes the module CSS styles, and `play` tests for behaviour.
@@ -56,11 +56,11 @@ Before you add or change a component, write or update its spec at `src/component
 
 Right after the one-line purpose, every spec has an **Import and use** section with three steps (see `Dialog/dialog.md`):
 
-1. The one-time setup: `pnpm add lab-ds` and the two CSS imports from the README.
+1. The one-time setup: `pnpm add @piraya.d/ai_designsystem_lab` and the two CSS imports from the README.
 2. The import line, naming every part.
 3. A minimal structure that uses those parts.
 
-The spec is done when every prop, variant, size, styled state and public class name in the code appears in it. Update it in the same change as the code and the story's `argTypes`. It is not a build entry and does not ship in `dist`.
+The spec is done when every prop, variant, size, styled state and public class name in the code appears in it. Update it in the same change as the code and the story's `argTypes`. It is not a build entry. The build copies the spec of every component exported from `src/index.ts` to `dist/docs/<Name>.md`, so it ships with the package.
 
 ### When a spec `.md` changes, update Storybook in the same change
 
@@ -90,7 +90,7 @@ The spec is done when every prop, variant, size, styled state and public class n
 - Each `*.module.css` starts with `@reference "../../../styles/globals.css";` and sits in `@layer components.primitive` (or `components.composite` for components that restyle other components). That keeps consumer utilities winning.
 - `build/css.ts` compiles each module with Tailwind, scopes class names to `lds-<Component>-<class>`, and writes a single `dist/styles.css`. That file holds the tokens, the `@theme inline` block, the base layer and the component CSS. Those class names are effectively public: consumers may target them, so renaming a module class is a breaking change.
 - A Tailwind utility used directly in markup (not through a module) must be listed in `MARKUP_UTILITIES` in `build/css.ts`. Today the list is `sr-only`.
-- Consumers write `@import "tailwindcss"; @import "lab-ds/styles.css";`. They need no `@source`, because component styles are precompiled. Keep this in `packages/ui/README.md`, and in `apps/docs` once it exists.
+- Consumers write `@import "tailwindcss"; @import "@piraya.d/ai_designsystem_lab/styles.css";`. They need no `@source`, because component styles are precompiled. Keep this in `packages/ui/README.md`, and in `apps/docs` once it exists.
 - `sideEffects` in `package.json` lists CSS files so bundlers keep them.
 
 **Exports.** `packages/ui/package.json` has an `exports` map with nested `import`/`require` conditions, each with its own `types` (`.d.ts` / `.d.cts`), plus `./styles.css`. `files` is limited to `dist`.
@@ -100,5 +100,5 @@ The spec is done when every prop, variant, size, styled state and public class n
 The npm package is versioned and published by hand, with no Changesets or CI release. Only do this when the user asks:
 
 1. Bump `version` in `packages/ui/package.json` using semver. Any change to a public prop, export or `lds-*` class name is breaking.
-2. Run `pnpm --filter lab-ds build`, then `pnpm --filter lab-ds exec npm pack --dry-run` to check what will ship.
+2. Run `pnpm --filter @piraya.d/ai_designsystem_lab build`, then `pnpm --filter @piraya.d/ai_designsystem_lab exec npm pack --dry-run` to check what will ship.
 3. Run `pnpm publish` from `packages/ui`. Use pnpm, not npm, because pnpm rewrites `workspace:` ranges.

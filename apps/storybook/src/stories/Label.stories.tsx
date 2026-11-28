@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Input, Label } from "lab-ds"
+import { Input, Label } from "@piraya.d/ai_designsystem_lab"
 import { expect, userEvent } from "storybook/test"
 
 const meta = {
