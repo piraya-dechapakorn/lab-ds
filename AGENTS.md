@@ -25,9 +25,17 @@ pnpm storybook                    # builds lab-ds, then runs tsup --watch + Stor
 pnpm --filter storybook build     # static Storybook → apps/storybook/storybook-static
 pnpm lint
 pnpm typecheck
+pnpm --filter lab-ds check:package   # after a build: component files + dist rules (see below)
+pnpm --filter storybook test         # after a build: every story + play test in headless Chromium
 ```
 
-There is no unit test runner yet. Ask before adding one. Storybook `play` functions (imported from `storybook/test`) are the only automated checks. They run when a story opens and show their result in the Interactions panel.
+There is no unit test runner. Ask before adding one. Tests are Storybook stories: `@storybook/addon-vitest` (`apps/storybook/vitest.config.ts`) renders every story in headless Chromium and fails on a render error or a failing `play` function (imported from `storybook/test`). The same results show in Storybook's Interactions panel. The first local run needs `pnpm --filter storybook exec playwright install chromium`.
+
+`packages/ui/build/check-package.mjs` checks the rules lint and the build can't see: every component folder is exported from `src/index.ts` and has its spec, story and `.mdx` page, and the built `dist` follows the rules under **Build** and **React Server Components** below. When you add a rule there, add its check to that script.
+
+## CI
+
+`.github/workflows/ci.yml` runs on pull requests into `main` and on pushes to `main`. Its one job, **Check components**, runs install (frozen lockfile), the lab-ds build, lint, typecheck, `check:package`, `npm pack --dry-run`, the Storybook build and `storybook test`, in that order. Before you push, run the same commands locally. A new check goes into that job so the single required status check covers it.
 
 ## Storybook
 
