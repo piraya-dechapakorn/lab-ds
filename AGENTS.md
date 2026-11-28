@@ -35,7 +35,7 @@ There is no unit test runner. Ask before adding one. Tests are Storybook stories
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pull requests into `main` and on pushes to `main`. Its one job, **Check components**, runs install (frozen lockfile), the lab-ds build, lint, typecheck, `check:package`, `npm pack --dry-run`, the Storybook build and `storybook test`, in that order. Before you push, run the same commands locally. A new check goes into that job so the single required status check covers it.
+`.github/workflows/ci.yml` runs on pull requests into `main` or `develop` and on pushes to either. Its one job, **Check components**, runs install (frozen lockfile), the lab-ds build, lint, typecheck, `check:package`, `npm pack --dry-run`, the Storybook build and `storybook test`, in that order. Before you push, run the same commands locally. A new check goes into that job so the single required status check covers it. The GitHub rulesets "Protect main" and "Protect develop" require that check by its name, **Check components**, so renaming the job blocks every merge until the rulesets are updated.
 
 ## Storybook
 
